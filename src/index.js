@@ -52,3 +52,11 @@ canvas.addEventListener('mousedown', (event) => {
 canvas.addEventListener('mouseup', (event) => {
   game.onMouseUp(event);
 });
+
+document.addEventListener('keydown', (event) => {
+  game.onKeyDown(event);
+});
+
+document.addEventListener('keyup', (event) => {
+  game.onKeyUp(event);
+});

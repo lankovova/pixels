@@ -3,10 +3,20 @@ import Bitmap from './Bitmap';
 class Game {
   bitmap = new Bitmap();
 
-  isDrawing = false;
+  isHolding = false;
+
+  holdingKeyEvent = undefined;
 
   update() {
     this.bitmap.update();
+
+    if (this.isHolding) {
+      if (this.holdingKeyEvent && this.holdingKeyEvent.shiftKey) {
+        this.bitmap.add(global.mousePos, true);
+      } else {
+        this.bitmap.add(global.mousePos);
+      }
+    }
   }
 
   draw(ctx, canvas) {
@@ -18,28 +28,27 @@ class Game {
   }
 
   onMouseDown() {
-    this.isDrawing = true;
+    this.isHolding = true;
   }
 
-  onMouseMove(event) {
-    if (this.isDrawing) {
-      if (event.shiftKey) {
-        this.bitmap.add(global.mousePos, true);
-      } else {
-        this.bitmap.add(global.mousePos);
-      }
-    } else {
-      this.bitmap.hover(global.mousePos);
+  onMouseMove() {
+    if (this.isHolding) {
+      return;
     }
+
+    this.bitmap.hover(global.mousePos);
   }
 
-  onMouseUp(event) {
-    if (event.shiftKey) {
-      this.bitmap.add(global.mousePos, true);
-    } else {
-      this.bitmap.add(global.mousePos);
-    }
-    this.isDrawing = false;
+  onMouseUp() {
+    this.isHolding = false;
+  }
+
+  onKeyDown(event) {
+    this.holdingKeyEvent = event;
+  }
+
+  onKeyUp() {
+    this.holdingKeyEvent = undefined;
   }
 }
 

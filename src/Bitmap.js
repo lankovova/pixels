@@ -5,9 +5,9 @@ import Water from './elements/Water';
 class Bitmap {
   map = [];
 
-  width = 50;
+  width = 100;
 
-  height = 50;
+  height = 70;
 
   hovered = undefined;
 
