@@ -45,6 +45,10 @@ class Water extends Element {
     if (this.moved) return undefined;
     this.moved = true;
 
+    const emptyOnTheLeft = this.j > 0 && this.map[this.i][this.j - 1].type === Types.Empty;
+    const emptyOnTheRight = this.j < this.map[this.i].length - 1
+      && this.map[this.i][this.j + 1].type === Types.Empty;
+
     if (this.i + 1 < this.map.length) {
       // Go underneath
       if (this.map[this.i + 1][this.j].type === Types.Empty) {
@@ -52,7 +56,11 @@ class Water extends Element {
       }
 
       // Go bot left
-      if (this.j > 0 && this.map[this.i + 1][this.j - 1].type === Types.Empty) {
+      if (
+        this.j > 0
+        && this.map[this.i + 1][this.j - 1].type === Types.Empty
+        && emptyOnTheLeft
+      ) {
         return this.swapWith(this.i + 1, this.j - 1);
       }
 
@@ -60,6 +68,7 @@ class Water extends Element {
       if (
         this.j < this.map[this.i].length - 1
         && this.map[this.i + 1][this.j + 1].type === Types.Empty
+        && emptyOnTheRight
       ) {
         return this.swapWith(this.i + 1, this.j + 1);
       }
@@ -71,15 +80,12 @@ class Water extends Element {
 
     if (this.direction === 'left') {
       // Go staright left
-      if (this.j > 0 && this.map[this.i][this.j - 1].type === Types.Empty) {
+      if (emptyOnTheLeft) {
         return this.swapWith(this.i, this.j - 1);
       }
 
       // Go staright right
-      if (
-        this.j < this.map[this.i].length - 1
-        && this.map[this.i][this.j + 1].type === Types.Empty
-      ) {
+      if (emptyOnTheRight) {
         return this.swapWith(this.i, this.j + 1);
       }
     } else {
