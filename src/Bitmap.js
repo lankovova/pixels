@@ -1,5 +1,5 @@
 import Element, { Types } from './elements/Element';
-import Stone from './elements/Stone';
+import Sand from './elements/Sand';
 import Water from './elements/Water';
 
 class Bitmap {
@@ -88,7 +88,7 @@ class Bitmap {
 
     if (pixel.type !== Types.Empty) return;
 
-    const ParticleToCreate = water ? Water : Stone;
+    const ParticleToCreate = water ? Water : Sand;
     this.map[pixel.i][pixel.j] = new ParticleToCreate(this.map, pixel.i, pixel.j);
   }
 }
