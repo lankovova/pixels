@@ -38,7 +38,14 @@ class Water extends Element {
   }
 
   clone() {
-    return new Water(this.map, this.i, this.j, this.color, this.moved, this.direction);
+    return new Water(
+      this.map,
+      this.i,
+      this.j,
+      this.color,
+      this.moved,
+      this.direction,
+    );
   }
 
   update() {
@@ -86,19 +93,18 @@ class Water extends Element {
 
       // Go staright right
       if (emptyOnTheRight) {
+        this.direction = 'right';
         return this.swapWith(this.i, this.j + 1);
       }
     } else {
       // Go staright right
-      if (
-        this.j < this.map[this.i].length - 1
-          && this.map[this.i][this.j + 1].type === Types.Empty
-      ) {
+      if (emptyOnTheRight) {
         return this.swapWith(this.i, this.j + 1);
       }
 
       // Go staright left
-      if (this.j > 0 && this.map[this.i][this.j - 1].type === Types.Empty) {
+      if (emptyOnTheLeft) {
+        this.direction = 'left';
         return this.swapWith(this.i, this.j - 1);
       }
     }
