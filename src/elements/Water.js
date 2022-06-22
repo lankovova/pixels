@@ -7,15 +7,12 @@ const darkModColor = { red: 0, green: 95, blue: 198 };
 class Water extends Element {
   type = Types.Water;
 
-  direction;
-
   color = defaultColor;
 
-  constructor(map, i, j, color, moved, direction) {
+  constructor(map, i, j, color, moved) {
     super(map, i, j);
 
     this.moved = moved;
-    this.direction = direction;
 
     let randColor = this.color;
     if (Math.random() > 0.7) {
@@ -44,7 +41,6 @@ class Water extends Element {
       this.j,
       this.color,
       this.moved,
-      this.direction,
     );
   }
 
@@ -81,11 +77,7 @@ class Water extends Element {
       }
     }
 
-    if (!this.direction) {
-      this.direction = Math.random() > 0.5 ? 'left' : 'right';
-    }
-
-    if (this.direction === 'left') {
+    if (Math.random() > 0.5) {
       // Go staright left
       if (emptyOnTheLeft) {
         return this.swapWith(this.i, this.j - 1);
@@ -93,7 +85,6 @@ class Water extends Element {
 
       // Go staright right
       if (emptyOnTheRight) {
-        this.direction = 'right';
         return this.swapWith(this.i, this.j + 1);
       }
     } else {
@@ -104,7 +95,6 @@ class Water extends Element {
 
       // Go staright left
       if (emptyOnTheLeft) {
-        this.direction = 'left';
         return this.swapWith(this.i, this.j - 1);
       }
     }
