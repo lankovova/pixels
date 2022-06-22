@@ -4,7 +4,7 @@ const weightsFromTopToBot = [
   Types.Empty,
   Types.Water,
   Types.Sand,
-  Types.Dirt,
+  Types.Stone,
 ];
 
 export const isHeavierThan = (element, than) => {

@@ -1,6 +1,6 @@
 export const Types = {
   Empty: 'Empty',
-  Dirt: 'Dirt',
+  Stone: 'Stone',
   Water: 'Water',
   Sand: 'Sand',
 };
