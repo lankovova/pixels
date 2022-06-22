@@ -1,19 +1,35 @@
 import Element, { Types } from './Element';
 
+const defaultColor = { red: 0, green: 128, blue: 255 };
+const lightModColor = { red: 54, green: 155, blue: 255 };
+const darkModColor = { red: 0, green: 95, blue: 198 };
+
 class Water extends Element {
   type = Types.Water;
 
   direction;
 
-  constructor(map, i, j, moved, direction) {
+  color = defaultColor;
+
+  constructor(map, i, j, color, moved, direction) {
     super(map, i, j);
 
     this.moved = moved;
     this.direction = direction;
+
+    let randColor = this.color;
+    if (Math.random() > 0.7) {
+      if (Math.random() > 0.3) {
+        randColor = lightModColor;
+      } else {
+        randColor = darkModColor;
+      }
+    }
+    this.color = color ?? randColor;
   }
 
   draw(ctx, sizeH, sizeW) {
-    ctx.fillStyle = 'cornflowerblue';
+    ctx.fillStyle = `rgb(${this.color.red}, ${this.color.green}, ${this.color.blue})`;
     ctx.fillRect(sizeW * this.j, sizeH * this.i, sizeW, sizeH);
   }
 
@@ -22,7 +38,7 @@ class Water extends Element {
   }
 
   clone() {
-    return new Water(this.map, this.i, this.j, this.moved, this.direction);
+    return new Water(this.map, this.i, this.j, this.color, this.moved, this.direction);
   }
 
   update() {

@@ -2,19 +2,35 @@ import Element, { Types } from './Element';
 import { railTillOneTruthy } from '../utils';
 import { isHeavierThan } from './utils';
 
+const defaultColor = { red: 252, green: 186, blue: 3 };
+const lightDarkColor = { red: 201, green: 148, blue: 0 };
+const heavyDarkColor = { red: 153, green: 113, blue: 0 };
+
 class Sand extends Element {
   type = Types.Sand;
 
   moved = false;
 
-  constructor(map, i, j, moved) {
+  color = defaultColor;
+
+  constructor(map, i, j, color, moved) {
     super(map, i, j);
 
     this.moved = moved;
+
+    let randColor = this.color;
+    if (Math.random() > 0.5) {
+      if (Math.random() > 0.3) {
+        randColor = lightDarkColor;
+      } else {
+        randColor = heavyDarkColor;
+      }
+    }
+    this.color = color ?? randColor;
   }
 
   draw(ctx, sizeH, sizeW) {
-    ctx.fillStyle = 'sandybrown';
+    ctx.fillStyle = `rgb(${this.color.red}, ${this.color.green}, ${this.color.blue})`;
     ctx.fillRect(sizeW * this.j, sizeH * this.i, sizeW, sizeH);
   }
 
@@ -23,7 +39,7 @@ class Sand extends Element {
   }
 
   clone() {
-    return new Sand(this.map, this.i, this.j, this.moved);
+    return new Sand(this.map, this.i, this.j, this.color, this.moved);
   }
 
   update() {
