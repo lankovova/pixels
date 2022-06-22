@@ -31,9 +31,6 @@ class Stone extends Element {
   clone() {
     return new Stone(this.map, this.i, this.j, this.color);
   }
-
-  // eslint-disable-next-line class-methods-use-this
-  update() {}
 }
 
 export default Stone;
