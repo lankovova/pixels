@@ -31,37 +31,33 @@ class Element {
   // eslint-disable-next-line class-methods-use-this
   update() {}
 
-  clone() {
-    return new Element(this.map, this.i, this.j);
+  moveTo(i, j) {
+    this.i = i;
+    this.j = j;
+    this.map[i][j] = this;
   }
 
   swapWith(i, j) {
-    const prevPixelClone = this.map[i][j].clone();
-    prevPixelClone.i = this.i;
-    prevPixelClone.j = this.j;
+    const elementToSwap = this.map[i][j];
 
-    const clonnedThis = this.clone();
-    clonnedThis.i = i;
-    clonnedThis.j = j;
-
-    this.map[i][j] = clonnedThis;
-    this.map[this.i][this.j] = prevPixelClone;
+    elementToSwap.moveTo(this.i, this.j);
+    this.moveTo(i, j);
 
     // TODO: Extract and move to classes that responsible for its own swap logic
-    if (prevPixelClone.type === Types.Water) {
+    if (elementToSwap.type === Types.Water) {
       const tryMoveLeft = () => {
         if (this.i > 0
           && this.j > 0
           && this.map[this.i - 1][this.j - 1].type === Types.Empty) {
-          prevPixelClone.swapWith(this.i - 1, this.j - 1);
+          elementToSwap.swapWith(this.i - 1, this.j - 1);
         }
       };
 
       const tryMoveRight = () => {
         if (
-          this.map[this.i - 1][this.j + 1]
+          this.map[this.i - 1][this.j - 1]
           && this.map[this.i - 1][this.j - 1].type === Types.Empty) {
-          prevPixelClone.swapWith(this.i - 1, this.j + 1);
+          elementToSwap.swapWith(this.i - 1, this.j + 1);
         }
       };
 

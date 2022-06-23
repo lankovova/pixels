@@ -27,10 +27,6 @@ class Stone extends Element {
     ctx.fillStyle = `rgb(${this.color.red}, ${this.color.green}, ${this.color.blue})`;
     ctx.fillRect(sizeW * this.j, sizeH * this.i, sizeW, sizeH);
   }
-
-  clone() {
-    return new Stone(this.map, this.i, this.j, this.color);
-  }
 }
 
 export default Stone;

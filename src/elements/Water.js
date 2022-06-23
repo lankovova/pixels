@@ -34,16 +34,6 @@ class Water extends Element {
     this.moved = false;
   }
 
-  clone() {
-    return new Water(
-      this.map,
-      this.i,
-      this.j,
-      this.color,
-      this.moved,
-    );
-  }
-
   update() {
     if (this.moved) return undefined;
     this.moved = true;
