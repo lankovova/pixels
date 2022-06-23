@@ -5,12 +5,19 @@ class Game {
 
   isHolding = false;
 
+  isInEraserMode = false;
+
   holdingKeyEvent = undefined;
 
   update() {
     this.bitmap.update();
 
     if (this.isHolding) {
+      if (this.isInEraserMode) {
+        this.bitmap.clear(global.mousePos);
+        return;
+      }
+
       if (this.holdingKeyEvent && this.holdingKeyEvent.shiftKey) {
         this.bitmap.add(global.mousePos, true);
       } else {
@@ -45,6 +52,22 @@ class Game {
 
   onKeyDown(event) {
     this.holdingKeyEvent = event;
+
+    if (!Number.isNaN(Number(event.key))) {
+      this.bitmap.brushRadius = Number(event.key);
+      return;
+    }
+
+    if (event.key.toLowerCase() === 'e') {
+      console.log('Enable eraser');
+      this.isInEraserMode = true;
+      return;
+    }
+
+    if (this.isInEraserMode) {
+      console.log('Disable eraser');
+      this.isInEraserMode = false;
+    }
   }
 
   onKeyUp() {

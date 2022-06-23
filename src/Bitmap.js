@@ -11,6 +11,8 @@ class Bitmap {
 
   hovered = undefined;
 
+  brushRadius = 4;
+
   framesSinceLastUpdate = 0;
 
   constructor() {
@@ -36,8 +38,6 @@ class Bitmap {
 
     if (this.framesSinceLastUpdate < 2) return;
     this.framesSinceLastUpdate = 0;
-
-    console.log('update');
 
     this.iterate((particle) => {
       particle.update();
@@ -72,23 +72,82 @@ class Bitmap {
   findByPoint(point) {
     const sizeH = Math.floor(window.innerHeight / this.height);
     const row = Math.floor(point.y / sizeH);
-    if (row > this.height) return undefined;
+    if (row < 0 || row >= this.height) return undefined;
 
     const sizeW = Math.floor(window.innerWidth / this.width);
     const col = Math.floor(point.x / sizeW);
-    if (col > this.width) return undefined;
+    if (col < 0 || col >= this.width) return undefined;
 
     return this.map[row][col];
   }
 
+  // FIXME: Fix elements type situation
   add(point, water = false) {
     const pixel = this.findByPoint(point);
-
     if (!pixel) return;
-    if (pixel.type !== Types.Empty) return;
 
-    const ParticleToCreate = water ? Water : Sand;
-    this.map[pixel.i][pixel.j] = new ParticleToCreate(this.map, pixel.i, pixel.j);
+    const ElementConstructor = water ? Water : Sand;
+    this.iterateCircleOfPixels(pixel.i, pixel.j, (x, y) => {
+      this.addElementToMap(x, y, ElementConstructor);
+    });
+  }
+
+  clear(point) {
+    const pixel = this.findByPoint(point);
+    if (!pixel) return;
+
+    this.iterateCircleOfPixels(pixel.i, pixel.j, (x, y) => {
+      this.clearPixel(x, y);
+    });
+  }
+
+  iterateCircleOfPixels(x, y, cb) {
+    if (this.brushRadius === 1) {
+      cb(x, y);
+      return;
+    }
+
+    for (let angle = 0; angle < 360; angle += 1) {
+      const x1 = Math.round(this.brushRadius * Math.cos((angle * Math.PI) / 180));
+      const y1 = Math.round(this.brushRadius * Math.sin((angle * Math.PI) / 180));
+      cb(x + x1, y + y1);
+
+      // Fill circle insides
+      let xT = x1;
+      while (xT !== 0) {
+        xT = xT > 0 ? xT - 1 : xT + 1;
+        cb(x + xT, y + y1);
+      }
+      let yT = y1;
+      while (yT !== 0) {
+        yT = yT > 0 ? yT - 1 : yT + 1;
+        cb(x + x1, y + yT);
+      }
+    }
+  }
+
+  addElementToMap(i, j, ElementConstructor) {
+    if (i < 0 || j < 0 || i >= this.map.length || j >= this.map[i].length) {
+      return;
+    }
+
+    if (this.map[i][j].type !== Types.Empty) {
+      return;
+    }
+
+    this.map[i][j] = new ElementConstructor(this.map, i, j);
+  }
+
+  clearPixel(i, j) {
+    if (i < 0 || j < 0 || i >= this.map.length || j >= this.map[i].length) {
+      return;
+    }
+
+    if (this.map[i][j].type === Types.Empty) {
+      return;
+    }
+
+    this.map[i][j] = new Element(this.map, i, j);
   }
 }
 
