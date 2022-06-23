@@ -44,7 +44,7 @@ class Sand extends Element {
     if (this.i + 1 < this.map.length) {
       // Go underneath
       const under = this.map[this.i + 1][this.j];
-      if (isHeavierThan(this, under)) {
+      if (under && isHeavierThan(this, under)) {
         return this.swapWith(this.i + 1, this.j);
       }
 

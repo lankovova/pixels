@@ -55,7 +55,8 @@ class Element {
 
       const tryMoveRight = () => {
         if (
-          this.map[this.i - 1][this.j - 1]
+          this.i < this.map.length
+          && this.j < this.map[i].length
           && this.map[this.i - 1][this.j - 1].type === Types.Empty) {
           elementToSwap.swapWith(this.i - 1, this.j + 1);
         }
