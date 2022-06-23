@@ -85,7 +85,6 @@ class Bitmap {
     const pixel = this.findByPoint(point);
 
     if (!pixel) return;
-
     if (pixel.type !== Types.Empty) return;
 
     const ParticleToCreate = water ? Water : Sand;
