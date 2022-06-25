@@ -12,6 +12,15 @@ class Game {
 
   activeElement = Types.Sand;
 
+  constructor(wrapperElement) {
+    this.wrapperElement = wrapperElement;
+
+    const elementsBtns = [...wrapperElement.querySelectorAll('#options input[name=element]')];
+    elementsBtns.forEach((elInput) => elInput.addEventListener('change', (event) => {
+      this.activeElement = event.target.value;
+    }));
+  }
+
   update() {
     this.bitmap.update();
 
@@ -23,6 +32,15 @@ class Game {
 
       this.bitmap.add(global.mousePos, this.activeElement);
     }
+  }
+
+  setActiveElement(element) {
+    this.activeElement = element;
+
+    const inputElement = this.wrapperElement.querySelector(`#options input[name=element][value=${element}]`);
+    if (!inputElement) return;
+
+    inputElement.checked = true;
   }
 
   draw(ctx, canvas) {
@@ -57,15 +75,29 @@ class Game {
       return;
     }
 
-    if (event.key.toLowerCase() === 'e') {
-      console.log('Enable eraser');
-      this.isInEraserMode = true;
-      return;
-    }
-
-    if (this.isInEraserMode) {
-      console.log('Disable eraser');
-      this.isInEraserMode = false;
+    switch (event.key) {
+      case 'e': {
+        // TODO: Make it visible in UI
+        if (this.isInEraserMode) {
+          console.log('Disable eraser');
+        } else {
+          console.log('Enable eraser');
+        }
+        this.isInEraserMode = !this.isInEraserMode;
+        break;
+      }
+      case 'w': {
+        this.setActiveElement(Types.Water);
+        break;
+      }
+      case 's': {
+        this.setActiveElement(Types.Sand);
+        break;
+      }
+      default: {
+        this.setActiveElement(Types.Stone);
+        break;
+      }
     }
   }
 

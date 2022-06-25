@@ -1,18 +1,12 @@
 import Game from './Game';
 
+const wrapper = document.querySelector('#wrapper');
 const canvas = document.querySelector('#canvas');
 const optionsSidebar = document.querySelector('#options');
 const ctx = canvas.getContext('2d', { alpha: false });
 global.mousePos = { x: 0, y: 0 };
 
-const game = new Game();
-
-function handleElementChange(event) {
-  game.activeElement = event.target.value;
-}
-
-const elementsBtns = [...document.querySelectorAll('input[name=element]')];
-elementsBtns.forEach((elInput) => elInput.addEventListener('change', handleElementChange));
+const game = new Game(wrapper);
 
 const FPS = 60; // Valid values are 60,30,20,15,10...
 // set the mim time to render the next frame
