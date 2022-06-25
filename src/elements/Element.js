@@ -1,4 +1,4 @@
-import { railTillOneTruthy } from '../utils';
+import { randomizedRailTillOneTruthy } from '../utils';
 
 export const Types = {
   Empty: 'Empty',
@@ -66,17 +66,10 @@ class Element {
         }
       };
 
-      if (Math.random() > 0.5) {
-        railTillOneTruthy(
-          tryMoveLeft,
-          tryMoveRight,
-        );
-      } else {
-        railTillOneTruthy(
-          tryMoveRight,
-          tryMoveLeft,
-        );
-      }
+      randomizedRailTillOneTruthy([
+        tryMoveLeft,
+        tryMoveRight,
+      ]);
     }
   }
 }

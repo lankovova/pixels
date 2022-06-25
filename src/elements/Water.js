@@ -1,3 +1,4 @@
+import { randomizedRailTillOneTruthy } from '../utils';
 import Element, { Types } from './Element';
 
 const defaultColor = { red: 0, green: 128, blue: 255 };
@@ -38,56 +39,72 @@ class Water extends Element {
     if (this.moved) return undefined;
     this.moved = true;
 
-    const emptyOnTheLeft = this.j > 0 && this.map[this.i][this.j - 1].type === Types.Empty;
-    const emptyOnTheRight = this.j < this.map[this.i].length - 1
-      && this.map[this.i][this.j + 1].type === Types.Empty;
-
-    if (this.i + 1 < this.map.length) {
+    const goUnder = () => {
       // Go underneath
-      if (this.map[this.i + 1][this.j].type === Types.Empty) {
-        return this.swapWith(this.i + 1, this.j);
+      if (
+        this.i + 1 < this.map.length
+        && this.map[this.i + 1][this.j].type === Types.Empty
+      ) {
+        this.swapWith(this.i + 1, this.j);
+        return true;
       }
+      return false;
+    };
 
+    const goBotLeft = () => {
       // Go bot left
       if (
-        this.j > 0
+        this.i + 1 < this.map.length
+        && this.j > 0
         && this.map[this.i + 1][this.j - 1].type === Types.Empty
-        && emptyOnTheLeft
+        && this.map[this.i][this.j - 1].type === Types.Empty // emptyOnTheLeft
       ) {
-        return this.swapWith(this.i + 1, this.j - 1);
+        this.swapWith(this.i + 1, this.j - 1);
+        return true;
       }
+      return false;
+    };
 
+    const goBotRight = () => {
       // Got bot right
       if (
-        this.j < this.map[this.i].length - 1
+        this.i + 1 < this.map.length
+        && this.j + 1 < this.map[this.i].length
         && this.map[this.i + 1][this.j + 1].type === Types.Empty
-        && emptyOnTheRight
+        && this.map[this.i][this.j + 1].type === Types.Empty // emptyOnTheRight
       ) {
-        return this.swapWith(this.i + 1, this.j + 1);
+        this.swapWith(this.i + 1, this.j + 1);
+        return true;
       }
-    }
+      return false;
+    };
 
-    if (Math.random() > 0.5) {
+    const goLeft = () => {
       // Go staright left
-      if (emptyOnTheLeft) {
-        return this.swapWith(this.i, this.j - 1);
+      if (this.j > 0 && this.map[this.i][this.j - 1].type === Types.Empty) {
+        this.swapWith(this.i, this.j - 1);
+        return true;
       }
+      return false;
+    };
 
+    const goRight = () => {
       // Go staright right
-      if (emptyOnTheRight) {
-        return this.swapWith(this.i, this.j + 1);
+      if (
+        this.j + 1 < this.map[this.i].length
+        && this.map[this.i][this.j + 1].type === Types.Empty
+      ) {
+        this.swapWith(this.i, this.j + 1);
+        return true;
       }
-    } else {
-      // Go staright right
-      if (emptyOnTheRight) {
-        return this.swapWith(this.i, this.j + 1);
-      }
+      return false;
+    };
 
-      // Go staright left
-      if (emptyOnTheLeft) {
-        return this.swapWith(this.i, this.j - 1);
-      }
-    }
+    randomizedRailTillOneTruthy(
+      [goUnder],
+      [goBotLeft, goBotRight],
+      [goLeft, goRight],
+    );
 
     return undefined;
   }

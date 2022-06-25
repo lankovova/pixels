@@ -15,14 +15,37 @@ export const clone = (value) => {
   return value;
 };
 
-export const railTillOneTruthy = (...funcs) => {
-  for (let i = 0; i < funcs.length; i += 1) {
-    const res = funcs[i]();
+const tryCallPredicate = (predicate) => {
+  if (typeof predicate === 'function') {
+    return predicate();
+  }
 
+  if (!Array.isArray(predicate)) {
+    throw new Error(`Predicate should be either function or array, but instead recieved type: ${typeof predicate}`);
+  }
+
+  const randomizedGroup = [...predicate].sort(() => 0.5 - Math.random());
+
+  for (let j = 0; j < randomizedGroup.length; j += 1) {
+    const tryPredicate = randomizedGroup[j];
+
+    const res = tryPredicate();
     if (res) {
-      return res;
+      return true;
     }
   }
 
-  return undefined;
+  return false;
+};
+
+export const randomizedRailTillOneTruthy = (...predicates) => {
+  for (let i = 0; i < predicates.length; i += 1) {
+    const predicate = predicates[i];
+    const res = tryCallPredicate(predicate);
+    if (res) {
+      return true;
+    }
+  }
+
+  return false;
 };

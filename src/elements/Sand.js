@@ -1,5 +1,5 @@
 import Element, { Types } from './Element';
-import { railTillOneTruthy } from '../utils';
+import { randomizedRailTillOneTruthy } from '../utils';
 import { isHeavierThan } from './utils';
 
 const defaultColor = { red: 252, green: 186, blue: 3 };
@@ -42,11 +42,15 @@ class Sand extends Element {
     if (this.moved) return undefined;
 
     if (this.i + 1 < this.map.length) {
-      // Go underneath
-      const under = this.map[this.i + 1][this.j];
-      if (under && isHeavierThan(this, under)) {
-        return this.swapWith(this.i + 1, this.j);
-      }
+      const goUnder = () => {
+        // Go underneath
+        const under = this.map[this.i + 1][this.j];
+        if (under && isHeavierThan(this, under)) {
+          this.swapWith(this.i + 1, this.j);
+          return true;
+        }
+        return false;
+      };
 
       const goBotLeft = () => {
         // Go bot left
@@ -73,17 +77,10 @@ class Sand extends Element {
         return false;
       };
 
-      if (Math.random() > 0.5) {
-        railTillOneTruthy(
-          goBotLeft,
-          goBotRight,
-        );
-      } else {
-        railTillOneTruthy(
-          goBotRight,
-          goBotLeft,
-        );
-      }
+      randomizedRailTillOneTruthy(
+        [goUnder],
+        [goBotLeft, goBotRight],
+      );
     }
 
     return undefined;
