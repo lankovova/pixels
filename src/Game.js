@@ -12,6 +12,8 @@ class Game {
 
   activeElement = Types.Sand;
 
+  isPaused = false;
+
   constructor(wrapperElement) {
     this.wrapperElement = wrapperElement;
 
@@ -22,7 +24,9 @@ class Game {
   }
 
   update() {
-    this.bitmap.update();
+    if (!this.isPaused) {
+      this.bitmap.update();
+    }
 
     if (this.isHolding) {
       if (this.isInEraserMode) {
@@ -92,6 +96,10 @@ class Game {
       }
       case 's': {
         this.setActiveElement(Types.Sand);
+        break;
+      }
+      case 'p': {
+        this.isPaused = !this.isPaused;
         break;
       }
       default: {
