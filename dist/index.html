@@ -8,7 +8,44 @@
   <link rel="stylesheet" type="text/css" href="./styles.css"/>
 </head>
 <body>
-  <canvas id="canvas" height="400" width="500"></canvas>
+  <div class="wrapper">
+    <canvas id="canvas" height="400" width="500"></canvas>
+    <div class="options" id="options">
+      <form action="#">
+        <fieldset>
+          <legend>Active Element</legend>
+          <div>
+            <input
+              type="radio"
+              name="element"
+              value="Sand"
+              id="sand"
+              checked
+            />
+            <label for="sand">Sand</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="element"
+              value="Water"
+              id="water"
+            />
+            <label for="water">Water</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="element"
+              value="Stone"
+              id="stone"
+            />
+            <label for="stone">Stone</label>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
   <script src="./main.js"></script>
 </body>
 </html>

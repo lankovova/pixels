@@ -1,12 +1,18 @@
 import Game from './Game';
 
 const canvas = document.querySelector('#canvas');
+const optionsSidebar = document.querySelector('#options');
 const ctx = canvas.getContext('2d', { alpha: false });
 global.mousePos = { x: 0, y: 0 };
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
 
 const game = new Game();
+
+function handleElementChange(event) {
+  game.activeElement = event.target.value;
+}
+
+const elementsBtns = [...document.querySelectorAll('input[name=element]')];
+elementsBtns.forEach((elInput) => elInput.addEventListener('change', handleElementChange));
 
 const FPS = 60; // Valid values are 60,30,20,15,10...
 // set the mim time to render the next frame
@@ -29,11 +35,16 @@ function update(time) {
 requestAnimationFrame(update); // start animation
 
 function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  global.canvasSize = {
+    width: window.innerWidth - optionsSidebar.getBoundingClientRect().width,
+    height: window.innerHeight,
+  };
 
-  game.draw(ctx, canvas);
+  canvas.width = global.canvasSize.width;
+  canvas.height = global.canvasSize.height;
 }
+
+resizeCanvas();
 
 window.addEventListener('resize', resizeCanvas, false);
 

@@ -1,5 +1,6 @@
 import Element, { Types } from './elements/Element';
 import Sand from './elements/Sand';
+import Stone from './elements/Stone';
 import Water from './elements/Water';
 
 class Bitmap {
@@ -49,8 +50,9 @@ class Bitmap {
   }
 
   draw(ctx) {
-    const sizeH = Math.floor(window.innerHeight / this.height);
-    const sizeW = Math.floor(window.innerWidth / this.width);
+    // TODO: Store in state and do not recalculate on each render
+    const sizeH = Math.floor(global.canvasSize.height / this.height);
+    const sizeW = Math.floor(global.canvasSize.width / this.width);
 
     this.iterate((particle, i, j) => {
       particle.draw(ctx, sizeH, sizeW);
@@ -70,23 +72,39 @@ class Bitmap {
   }
 
   findByPoint(point) {
-    const sizeH = Math.floor(window.innerHeight / this.height);
+    // TODO: Store in state and do not recalculate on each render
+    const sizeH = Math.floor(global.canvasSize.height / this.height);
     const row = Math.floor(point.y / sizeH);
     if (row < 0 || row >= this.height) return undefined;
 
-    const sizeW = Math.floor(window.innerWidth / this.width);
+    // TODO: Store in state and do not recalculate on each render
+    const sizeW = Math.floor(global.canvasSize.width / this.width);
     const col = Math.floor(point.x / sizeW);
     if (col < 0 || col >= this.width) return undefined;
 
     return this.map[row][col];
   }
 
-  // FIXME: Fix elements type situation
-  add(point, water = false) {
+  add(point, elementType) {
     const pixel = this.findByPoint(point);
     if (!pixel) return;
 
-    const ElementConstructor = water ? Water : Sand;
+    let ElementConstructor;
+    switch (elementType) {
+      case Types.Sand: {
+        ElementConstructor = Sand;
+        break;
+      }
+      case Types.Water: {
+        ElementConstructor = Water;
+        break;
+      }
+      default: {
+        ElementConstructor = Stone;
+        break;
+      }
+    }
+
     this.iterateCircleOfPixels(pixel.i, pixel.j, (x, y) => {
       this.addElementToMap(x, y, ElementConstructor);
     });

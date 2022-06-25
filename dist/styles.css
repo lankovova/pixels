@@ -3,3 +3,11 @@ html, body {
   margin: 0;
   overflow: hidden;
 }
+
+.wrapper {
+  display: flex;
+}
+
+.options {
+
+}

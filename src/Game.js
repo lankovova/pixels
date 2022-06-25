@@ -1,4 +1,5 @@
 import Bitmap from './Bitmap';
+import { Types } from './elements/Element';
 
 class Game {
   bitmap = new Bitmap();
@@ -9,6 +10,8 @@ class Game {
 
   holdingKeyEvent = undefined;
 
+  activeElement = Types.Sand;
+
   update() {
     this.bitmap.update();
 
@@ -18,11 +21,7 @@ class Game {
         return;
       }
 
-      if (this.holdingKeyEvent && this.holdingKeyEvent.shiftKey) {
-        this.bitmap.add(global.mousePos, true);
-      } else {
-        this.bitmap.add(global.mousePos);
-      }
+      this.bitmap.add(global.mousePos, this.activeElement);
     }
   }
 

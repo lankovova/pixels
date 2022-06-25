@@ -38,6 +38,10 @@ class Element {
   }
 
   swapWith(i, j) {
+    if (!this.map[i] || !this.map[i][j]) {
+      return;
+    }
+
     const elementToSwap = this.map[i][j];
 
     elementToSwap.moveTo(this.i, this.j);
@@ -55,9 +59,9 @@ class Element {
 
       const tryMoveRight = () => {
         if (
-          this.i < this.map.length
-          && this.j < this.map[i].length
-          && this.map[this.i - 1][this.j - 1].type === Types.Empty) {
+          this.i > 0
+          && this.j < this.map[i].length - 1
+          && this.map[this.i - 1][this.j + 1].type === Types.Empty) {
           elementToSwap.swapWith(this.i - 1, this.j + 1);
         }
       };
