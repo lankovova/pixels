@@ -126,8 +126,12 @@ class Bitmap {
     }
 
     for (let angle = 0; angle < 360; angle += 1) {
-      const x1 = Math.round((this.brushRadius - 1) * Math.cos((angle * Math.PI) / 180));
-      const y1 = Math.round((this.brushRadius - 1) * Math.sin((angle * Math.PI) / 180));
+      const x1 = Math.round(
+        (this.brushRadius - 1) * Math.cos((angle * Math.PI) / 180),
+      );
+      const y1 = Math.round(
+        (this.brushRadius - 1) * Math.sin((angle * Math.PI) / 180),
+      );
       cb(x + x1, y + y1);
 
       // Fill circle insides

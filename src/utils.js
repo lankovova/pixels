@@ -1,4 +1,5 @@
-export const isObject = (x) => Object.prototype.toString.call(x) === '[object Object]';
+export const isObject = (x) =>
+  Object.prototype.toString.call(x) === '[object Object]';
 
 export const clone = (value) => {
   if (Array.isArray(value)) {
@@ -24,7 +25,9 @@ const tryCallPredicate = (predicate) => {
   }
 
   if (!Array.isArray(predicate)) {
-    throw new Error(`Predicate should be either function or array, but instead recieved type: ${typeof predicate}`);
+    throw new Error(
+      `Predicate should be either function or array, but instead recieved type: ${typeof predicate}`,
+    );
   }
 
   const randomizedGroup = [...predicate].sort(() => 0.5 - Math.random());

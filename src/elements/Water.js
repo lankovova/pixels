@@ -41,7 +41,10 @@ class Water extends Element {
 
     const goUnder = () => {
       // Go underneath
-      if (this.i + 1 < this.map.length && this.map[this.i + 1][this.j].type === Types.Empty) {
+      if (
+        this.i + 1 < this.map.length &&
+        this.map[this.i + 1][this.j].type === Types.Empty
+      ) {
         this.swapWith(this.i + 1, this.j);
         return true;
       }
@@ -87,14 +90,21 @@ class Water extends Element {
 
     const goRight = () => {
       // Go staright right
-      if (this.j + 1 < this.map[this.i].length && this.map[this.i][this.j + 1].type === Types.Empty) {
+      if (
+        this.j + 1 < this.map[this.i].length &&
+        this.map[this.i][this.j + 1].type === Types.Empty
+      ) {
         this.swapWith(this.i, this.j + 1);
         return true;
       }
       return false;
     };
 
-    randomizedRailTillOneTruthy([goUnder], [goBotLeft, goBotRight], [goLeft, goRight]);
+    randomizedRailTillOneTruthy(
+      [goUnder],
+      [goBotLeft, goBotRight],
+      [goLeft, goRight],
+    );
 
     return undefined;
   }

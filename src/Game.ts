@@ -19,7 +19,9 @@ class Game {
   constructor(wrapperElement) {
     this.wrapperElement = wrapperElement;
 
-    const elementsBtns = [...wrapperElement.querySelectorAll('#options input[name=element]')];
+    const elementsBtns = [
+      ...wrapperElement.querySelectorAll('#options input[name=element]'),
+    ];
     elementsBtns.forEach((elInput) =>
       elInput.addEventListener('change', (event) => {
         this.activeElement = event.target.value;
@@ -45,7 +47,9 @@ class Game {
   setActiveElement(element) {
     this.activeElement = element;
 
-    const inputElement = this.wrapperElement.querySelector(`#options input[name=element][value=${element}]`);
+    const inputElement = this.wrapperElement.querySelector(
+      `#options input[name=element][value=${element}]`,
+    );
     if (!inputElement) return;
 
     inputElement.checked = true;
