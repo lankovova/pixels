@@ -1,7 +1,7 @@
 import Game from './Game';
 
 const wrapper = document.querySelector('#wrapper');
-const canvas = document.querySelector('#canvas');
+const canvas = document.querySelector('#canvas') as HTMLCanvasElement;
 const optionsSidebar = document.querySelector('#options');
 const ctx = canvas.getContext('2d', { alpha: false });
 global.mousePos = { x: 0, y: 0 };
@@ -14,13 +14,14 @@ const FRAME_MIN_TIME = (1000 / 60) * (60 / FPS) - (1000 / 60) * 0.5;
 let lastFrameTime = 0; // the last frame time
 function update(time) {
   const deltaT = time - lastFrameTime;
-  if (deltaT < FRAME_MIN_TIME) { // skip the frame if the call is too early
+  if (deltaT < FRAME_MIN_TIME) {
+    // skip the frame if the call is too early
     requestAnimationFrame(update);
     return; // return as there is nothing to do
   }
   lastFrameTime = time; // remember the time of the rendered frame
 
-  game.update(deltaT);
+  game.update();
   // render the frame
   game.draw(ctx, canvas);
 
@@ -47,21 +48,21 @@ canvas.addEventListener('mousemove', (event) => {
   global.mousePos.x = Math.round(event.clientX - cRect.left); // Subtract the 'left' of the canvas
   global.mousePos.y = Math.round(event.clientY - cRect.top); // from the X/Y positions to make
 
-  game.onMouseMove(event);
+  game.onMouseMove();
 });
 
-canvas.addEventListener('mousedown', (event) => {
-  game.onMouseDown(event);
+canvas.addEventListener('mousedown', () => {
+  game.onMouseDown();
 });
 
-canvas.addEventListener('mouseup', (event) => {
-  game.onMouseUp(event);
+canvas.addEventListener('mouseup', () => {
+  game.onMouseUp();
 });
 
 document.addEventListener('keydown', (event) => {
   game.onKeyDown(event);
 });
 
-document.addEventListener('keyup', (event) => {
-  game.onKeyUp(event);
+document.addEventListener('keyup', () => {
+  game.onKeyUp();
 });

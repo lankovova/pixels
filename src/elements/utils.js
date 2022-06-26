@@ -1,11 +1,6 @@
 import { Types } from './Element';
 
-const weightsFromTopToBot = [
-  Types.Empty,
-  Types.Water,
-  Types.Sand,
-  Types.Stone,
-];
+const weightsFromTopToBot = [Types.Empty, Types.Water, Types.Sand, Types.Stone];
 
 export const isHeavierThan = (element, than) => {
   if (element.type === than.type) {

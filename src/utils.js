@@ -6,10 +6,13 @@ export const clone = (value) => {
   }
 
   if (isObject(value)) {
-    return Object.entries(value).reduce((acc, [k, v]) => ({
-      ...acc,
-      [k]: clone(v),
-    }), {});
+    return Object.entries(value).reduce(
+      (acc, [k, v]) => ({
+        ...acc,
+        [k]: clone(v),
+      }),
+      {},
+    );
   }
 
   return value;

@@ -67,20 +67,14 @@ class Sand extends Element {
         // Got bot right
         const botRight = this.map[this.i + 1][this.j + 1];
 
-        if (
-          this.j < this.map[this.i].length - 1
-          && isHeavierThan(this, botRight)
-        ) {
+        if (this.j < this.map[this.i].length - 1 && isHeavierThan(this, botRight)) {
           this.swapWith(this.i + 1, this.j + 1);
           return true;
         }
         return false;
       };
 
-      randomizedRailTillOneTruthy(
-        [goUnder],
-        [goBotLeft, goBotRight],
-      );
+      randomizedRailTillOneTruthy([goUnder], [goBotLeft, goBotRight]);
     }
 
     return undefined;

@@ -41,10 +41,7 @@ class Water extends Element {
 
     const goUnder = () => {
       // Go underneath
-      if (
-        this.i + 1 < this.map.length
-        && this.map[this.i + 1][this.j].type === Types.Empty
-      ) {
+      if (this.i + 1 < this.map.length && this.map[this.i + 1][this.j].type === Types.Empty) {
         this.swapWith(this.i + 1, this.j);
         return true;
       }
@@ -54,10 +51,10 @@ class Water extends Element {
     const goBotLeft = () => {
       // Go bot left
       if (
-        this.i + 1 < this.map.length
-        && this.j > 0
-        && this.map[this.i + 1][this.j - 1].type === Types.Empty
-        && this.map[this.i][this.j - 1].type === Types.Empty // emptyOnTheLeft
+        this.i + 1 < this.map.length &&
+        this.j > 0 &&
+        this.map[this.i + 1][this.j - 1].type === Types.Empty &&
+        this.map[this.i][this.j - 1].type === Types.Empty // emptyOnTheLeft
       ) {
         this.swapWith(this.i + 1, this.j - 1);
         return true;
@@ -68,10 +65,10 @@ class Water extends Element {
     const goBotRight = () => {
       // Got bot right
       if (
-        this.i + 1 < this.map.length
-        && this.j + 1 < this.map[this.i].length
-        && this.map[this.i + 1][this.j + 1].type === Types.Empty
-        && this.map[this.i][this.j + 1].type === Types.Empty // emptyOnTheRight
+        this.i + 1 < this.map.length &&
+        this.j + 1 < this.map[this.i].length &&
+        this.map[this.i + 1][this.j + 1].type === Types.Empty &&
+        this.map[this.i][this.j + 1].type === Types.Empty // emptyOnTheRight
       ) {
         this.swapWith(this.i + 1, this.j + 1);
         return true;
@@ -90,21 +87,14 @@ class Water extends Element {
 
     const goRight = () => {
       // Go staright right
-      if (
-        this.j + 1 < this.map[this.i].length
-        && this.map[this.i][this.j + 1].type === Types.Empty
-      ) {
+      if (this.j + 1 < this.map[this.i].length && this.map[this.i][this.j + 1].type === Types.Empty) {
         this.swapWith(this.i, this.j + 1);
         return true;
       }
       return false;
     };
 
-    randomizedRailTillOneTruthy(
-      [goUnder],
-      [goBotLeft, goBotRight],
-      [goLeft, goRight],
-    );
+    randomizedRailTillOneTruthy([goUnder], [goBotLeft, goBotRight], [goLeft, goRight]);
 
     return undefined;
   }

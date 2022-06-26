@@ -50,26 +50,18 @@ class Element {
     // TODO: Extract and move to classes that responsible for its own swap logic
     if (elementToSwap.type === Types.Water) {
       const tryMoveLeft = () => {
-        if (this.i > 0
-          && this.j > 0
-          && this.map[this.i - 1][this.j - 1].type === Types.Empty) {
+        if (this.i > 0 && this.j > 0 && this.map[this.i - 1][this.j - 1].type === Types.Empty) {
           elementToSwap.swapWith(this.i - 1, this.j - 1);
         }
       };
 
       const tryMoveRight = () => {
-        if (
-          this.i > 0
-          && this.j < this.map[i].length - 1
-          && this.map[this.i - 1][this.j + 1].type === Types.Empty) {
+        if (this.i > 0 && this.j < this.map[i].length - 1 && this.map[this.i - 1][this.j + 1].type === Types.Empty) {
           elementToSwap.swapWith(this.i - 1, this.j + 1);
         }
       };
 
-      randomizedRailTillOneTruthy([
-        tryMoveLeft,
-        tryMoveRight,
-      ]);
+      randomizedRailTillOneTruthy([tryMoveLeft, tryMoveRight]);
     }
   }
 }
